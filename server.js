@@ -7,8 +7,6 @@ const contactsRoute = require("./routes/contacts");
 const app = express();
 app.use(express.json());
 
-app.use("/contacts", contactsRoute);
-
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
@@ -17,6 +15,9 @@ app.get("/", (req, res) => {
 
 async function startServer() {
   await connectDB();
+
+  // ONLY attach routes AFTER DB is ready
+  app.use("/contacts", contactsRoute);
 
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
