@@ -8,7 +8,7 @@ let db;
 async function connectDB() {
   try {
     await client.connect();
-    db = client.db();
+    db = client.db(); // uses database from URI
     console.log("Connected to MongoDB");
   } catch (err) {
     console.error("MongoDB connection error:", err);
@@ -16,6 +16,9 @@ async function connectDB() {
 }
 
 function getDB() {
+  if (!db) {
+    throw new Error("Database not initialized yet");
+  }
   return db;
 }
 
