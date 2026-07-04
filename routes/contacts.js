@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { ObjectId } = require("mongodb");
 const { getDB } = require("../db/connect");
+const { ObjectId } = require("mongodb");
 
 // GET all contacts
 router.get("/", async (req, res) => {
