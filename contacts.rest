@@ -1,0 +1,25 @@
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@example.com",
+  "favoriteColor": "Orange",
+  "birthday": "1999-10-10"
+}
+
+### Update a contact
+PUT http://localhost:3000/contacts/6a494a5bf31d2fc8bbe03c4f
+Content-Type: application/json
+
+{
+  "firstName": "Brock",
+  "lastName": "Jacobs",
+  "email": "alphanumeri117@gmail.com",
+  "favoriteColor": "red",
+  "birthday": "1996-03-12"
+}
+
+### Delete a contact
+DELETE http://localhost:3000/contacts/6a526695dac0a88bf3fc6bd1

@@ -33,4 +33,86 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  try {
+    const db = getDB();
+
+    const contact = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      favoriteColor: req.body.favoriteColor,
+      birthday: req.body.birthday
+    };
+
+    // Make sure all fields are present
+    if (
+      !contact.firstName ||
+      !contact.lastName ||
+      !contact.email ||
+      !contact.favoriteColor ||
+      !contact.birthday
+    ) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    const result = await db.collection("contacts").insertOne(contact);
+
+    res.status(201).json({
+      id: result.insertedId
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    });
+  }
+});
+
+// PUT update contact by ID
+router.put("/:id", async (req, res) => {
+  try {
+    const db = getDB();
+
+    const contact = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      favoriteColor: req.body.favoriteColor,
+      birthday: req.body.birthday
+    };
+
+    const result = await db.collection("contacts").replaceOne(
+      { _id: new ObjectId(req.params.id) },
+      contact
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// DELETE contact by ID
+router.delete("/:id", async (req, res) => {
+  try {
+    const db = getDB();
+
+    const result = await db.collection("contacts").deleteOne({
+      _id: new ObjectId(req.params.id),
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
